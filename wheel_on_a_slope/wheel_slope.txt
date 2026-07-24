@@ -1,0 +1,60 @@
+
+Mat
+matrix([[m*a[large]^2 + IT, 0, 0], [0, IT + IA*sin(`&theta;`(t))^2 - IT*sin(`&theta;`(t))^2 + m*sin(`&theta;`(t))^2*a[large]^2, -sin(`&theta;`(t))*(m*a[large]^2 + m*sin(`&theta;`(t))*a[small]*a[large] + IA)], [0, -sin(`&theta;`(t))*(m*a[large]^2 + m*sin(`&theta;`(t))*a[small]*a[large] + IA), IA + m*(a[large] + sin(`&theta;`(t))*a[small])^2]])
+
+
+Mat[1,1]
+m*a[large]^2 + IT
+
+Mat[2,1]
+0
+Mat[3,1]
+0
+
+Mat[1,2]
+0
+
+Mat[2,2]
+IT + IA*sin(`&theta;`(t))^2 - IT*sin(`&theta;`(t))^2 + m*sin(`&theta;`(t))^2*a[large]^2
+
+Mat[3,2]
+-sin(`&theta;`(t))*(m*a[large]^2 + m*sin(`&theta;`(t))*a[small]*a[large] + IA)
+
+Mat[1,3]
+0
+
+Mat[2,3]
+-sin(`&theta;`(t))*(m*a[large]^2 + m*sin(`&theta;`(t))*a[small]*a[large] + IA)
+
+Mat[3,3]
+IA + m*(a[large] + sin(`&theta;`(t))*a[small])^2
+
+
+
+vec:=matrix([acc_theta_s___RHS,acc_phi_s___RHS,acc_psi_s___RHS]):
+vec:=Simplify(vec):
+
+
+vec[1]
+(IA*sin(2*`&theta;`(t))*diff(`&phi;`(t), t)^2)/2 - (IT*sin(2*`&theta;`(t))*diff(`&phi;`(t), t)^2)/2 - IA*cos(`&theta;`(t))*diff(`&psi;`(t), t)*diff(`&phi;`(t), t) + (m*sin(2*`&theta;`(t))*a[large]^2*diff(`&phi;`(t), t)^2)/2 - m*cos(`&theta;`(t))*a[large]^2*diff(`&psi;`(t), t)*diff(`&phi;`(t), t) + g*m*sin(`&theta;`(t))*cos(`&alpha;`)*a[large] - (m*sin(2*`&theta;`(t))*a[large]*a[small]*diff(`&psi;`(t), t)*diff(`&phi;`(t), t))/2
+
+
+vec[2]
+(diff(`&theta;`(t), t)*(2*IA*cos(`&theta;`(t))*diff(`&psi;`(t), t) - 2*IA*sin(2*`&theta;`(t))*diff(`&phi;`(t), t) + 2*IT*sin(2*`&theta;`(t))*diff(`&phi;`(t), t) - 2*m*sin(2*`&theta;`(t))*a[large]^2*diff(`&phi;`(t), t) + m*sin(2*`&theta;`(t))*a[large]*a[small]*diff(`&psi;`(t), t)))/2
+vec[3]
+cos(`&theta;`(t))*diff(`&theta;`(t), t)*(IA*diff(`&phi;`(t), t) + 2*m*a[large]^2*diff(`&phi;`(t), t) - m*a[large]*a[small]*diff(`&psi;`(t), t) - m*sin(`&theta;`(t))*a[small]^2*diff(`&psi;`(t), t) + 2*m*sin(`&theta;`(t))*a[large]*a[small]*diff(`&phi;`(t), t))
+
+
+These equations can now be coded up and solved in Matlab
+
+
+
+
+
+
+
+
+
+
+
+

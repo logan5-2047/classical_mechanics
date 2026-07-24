@@ -50,8 +50,101 @@ legend('sun', 'mercury', 'venus', 'earth', 'mars', 'jupiter', 'saturn', 'neptune
 grid on
 
 
+video_filename = 'my_animation.mp4';
+v = VideoWriter(video_filename, 'MPEG-4'); % 'MPEG-4' creates an MP4 file
+v.FrameRate = 25;                          % Set target frames per second
+open(v);                                   % Open the file for writing
 
-%title('Mars Orbit Path');
+nTimecount = size(sunData.JDTDB);
+
+cmap = parula(10); 
+
+nScales = 2;
+
+    
+zoom = 1;
+
+if zoom == 0 
+    
+    length_scale = 1/28 * pluto_limit;
+else
+      length_scale = pluto_limit;
+end
+
+figure
+
+for iTimecount = 1:10:nTimecount
+    clf
+    
+    time = sunData.JDTDB(iTimecount);
+    plot3(sunData.X, sunData.Y,sunData.Z);
+    hold on
+    plot3(mercuryData.X, mercuryData.Y,mercuryData.Z);
+    plot3(venusData.X, venusData.Y,venusData.Z);
+    plot3(earthData.X, earthData.Y,earthData.Z);
+    plot3(marsData.X, marsData.Y,marsData.Z);
+    plot3(jupiterData.X, jupiterData.Y,jupiterData.Z);
+    plot3(saturnData.X, saturnData.Y,saturnData.Z);
+    plot3(uranusData.X, uranusData.Y,uranusData.Z);
+    plot3(neptuneData.X, neptuneData.Y,neptuneData.Z);
+    plot3(plutoData.X, plutoData.Y,plutoData.Z);
+    xlim([-length_scale, length_scale]);
+    ylim([-length_scale, length_scale]);
+    zlim([-length_scale, length_scale]);
+    axis vis3d
+
+    grid on
+
+    nPlanets = 9;
+    for iPlanets = 0:nPlanets
+        switch iPlanets
+            case 0
+                planet_string = 'sun';
+            case 1
+                planet_string = 'mercury';
+            case 2
+                planet_string = 'venus';           
+            case 3
+               planet_string = 'earth';               
+            case 4
+                planet_string = 'mars';               
+            case 5
+                planet_string = 'jupiter';               
+            case 6
+                planet_string = 'saturn';               
+            case 7
+                planet_string = 'uranus';                
+            case 8
+                planet_string = 'neptune';              
+            case 9
+                planet_string = 'pluto';                    
+            otherwise
+                disp('other value')
+        end
+        planet_data = strcat(planet_string,'Data');
+        planet_X = eval([planet_data '.X(iTimecount)']);
+        planet_Y = eval([planet_data '.Y(iTimecount)']);        
+        planet_Z = eval([planet_data '.Z(iTimecount)']);
+        chosen_color = cmap(iPlanets + 1, :); 
+        plot3(planet_X,planet_Y,planet_Z,'ro');
+        %plot3(planet_X,planet_Y,planet_Z,'o','Color', chosen_color);
+        
+    end
+    legend('sun', 'mercury', 'venus', 'earth', 'mars', 'jupiter', 'saturn', 'neptune', 'pluto');
+   
+    drawnow;
+    
+    % Capture the current plot frame
+    frame = getframe(gcf);                 % 'gcf' gets the current figure
+    
+    % Write the frame to the video file
+    writeVideo(v, frame);
+end
+
+
+close(v)
+disp(['Movie saved successfully as ', video_filename]);
+
 
 
 function data = read_horizons_ephemeris(filename)

@@ -281,18 +281,15 @@ classdef wheel
             sinTwoTheta = sin(2 * theta);
           
             m = Mass;
-            rvec_1 = (IA*sinTwoTheta*phiDot/2 - ...
-                (IT*sinTwoTheta*phiDot/2 - IA*cosTheta*psiDot*phiDot ...
-                + (m*sinTwoTheta*aLarge^2*phiDot/2 - m*cosTheta*aLarge^2*psiDot*phiDot ...
-                + g*m*sinTheta*cosAlpha*aLarge - (m*sinTwoTheta*aLarge*aSmall*psiDot*phiDot)/2)));
+            rvec_1 = (IA*phiDot^2*sinTwoTheta)/2 - (IT*phiDot^2*sinTwoTheta)/2 + (aLarge^2*m*phiDot^2*sinTwoTheta)/2 - ...
+                IA*cosTheta*phiDot*psiDot + aLarge*cosAlpha*g*m*sinTheta - aLarge^2*cosTheta*m*phiDot*psiDot - ...
+                (aLarge*aSmall*m*phiDot*psiDot*sinTwoTheta)/2;
             
-            rvec_2 = (thetaDot*(2*IA*cosTheta*psiDot - 2*IA*sinTwoTheta*phiDot ...
-                + 2*IT*sinTwoTheta*phiDot - 2*m*sinTwoTheta*aLarge^2*phiDot ...
-                + m*sinTwoTheta*aLarge*aSmall*psiDot))/2;
+            rvec_2 = (thetaDot*(- 2*m*phiDot*sinTwoTheta*aLarge^2 + aSmall*m*psiDot*sinTwoTheta*aLarge + ...
+                2*IA*cosTheta*psiDot - 2*IA*phiDot*sinTwoTheta + 2*IT*phiDot*sinTwoTheta))/2;
             
-            rvec_3 = cosTheta*thetaDot*(IA*phiDot + 2*m*aLarge^2*phiDot ...
-                - m*aLarge*aSmall*psiDot - m*sinTheta*aSmall^2*psiDot ...
-                + 2*m*sinTheta*aLarge*aSmall*phiDot);
+            rvec_3 = cosTheta*thetaDot*(IA*phiDot + 2*aLarge^2*m*phiDot - aSmall^2*m*psiDot*sinTheta - ...
+                aLarge*aSmall*m*psiDot + 2*aLarge*aSmall*m*phiDot*sinTheta);
             
             rightVec = [ rvec_1; rvec_2; rvec_3];
         end
@@ -319,11 +316,11 @@ classdef wheel
             mat21 = 0;
             mat31 = 0;
             mat12 = 0;
-            mat22 = IT + IA*sinTheta^2 - IT*sinTheta^2 + m*sinTheta^2*aLarge^2;
-            mat32 = -sinTheta*(m*aLarge^2 + m*sinTheta*aSmall*aLarge + IA);
+            mat22 = IT + IA*sinTheta^2 - IT*sinTheta^2 + aLarge^2*m*sinTheta^2;
+            mat32 = -sinTheta*(m*aLarge^2 + aSmall*m*sinTheta*aLarge + IA);
             mat13 = 0;
-            mat23 = -sinTheta*(m*aLarge^2 + m*sinTheta*aSmall*aLarge + IA);
-            mat33 = IA + m*(aLarge + sinTheta*aSmall)^2;
+            mat23 = -sinTheta*(m*aLarge^2 + aSmall*m*sinTheta*aLarge + IA);
+            mat33 = IA + m*(aLarge + aSmall*sinTheta)^2;
             %
             Mat = [mat11,   mat12,   mat13;   
                    mat21,   mat22,   mat23;  

@@ -16,7 +16,6 @@ classdef wheel
         psiVelocityInitial
         solution
     end
-    
     methods(Access=public)
         function obj = wheel(wheelParams,alpha,Xstart,Ystart,thetaInitial,phiInitial,psiInitial,speed,physicalConstants,numericalParameters)
             % wheel: Constructs an instance of this class
@@ -564,19 +563,19 @@ classdef wheel
             %
             thetaRotation = pi/2 + theta;
             phiRotation = - pi/2 + phi;
-            [x_s1,y_s1,z_s1] = object_rotate(x_s1,y_s1,z_s1,0.0,0.0,psi);
+            [x_s1,y_s1,z_s1] = object_rotate(x_s1,y_s1,z_s1,0.0,0.0,-psi);
             [x_s1,y_s1,z_s1] = object_rotate(x_s1,y_s1,z_s1,pi/2,0,0);
             [x_s1,y_s1,z_s1] = object_rotate(x_s1,y_s1,z_s1,0.0,theta,0);
             [x_s1,y_s1,z_s1] = object_rotate(x_s1,y_s1,z_s1,0.0,0.0,phi);
             
-            [arrayX, arrayY, arrayZ] = object_rotate(arrayX, arrayY, arrayZ,0.0,0.0,psi);
+            [arrayX, arrayY, arrayZ] = object_rotate(arrayX, arrayY, arrayZ,0.0,0.0,-psi);
             [arrayX, arrayY, arrayZ] = object_rotate(arrayX, arrayY, arrayZ,0.0,thetaRotation,0);
             [arrayX, arrayY, arrayZ] = object_rotate(arrayX, arrayY, arrayZ,0.0,0.0,phiRotation);        
             
-            [XtorusU,YtorusU,ZtorusU] = object_rotate(XtorusU,YtorusU,ZtorusU,0.0,0.0,psi);
+            [XtorusU,YtorusU,ZtorusU] = object_rotate(XtorusU,YtorusU,ZtorusU,0.0,0.0,-psi);
             [XtorusU,YtorusU,ZtorusU] = object_rotate(XtorusU,YtorusU,ZtorusU,0.0,thetaRotation,0);
             [XtorusU,YtorusU,ZtorusU] = object_rotate(XtorusU,YtorusU,ZtorusU,0.0,0.0,phiRotation);
-            [XtorusD,YtorusD,ZtorusD] = object_rotate(XtorusD,YtorusD,ZtorusD,0.0,0.0,psi);
+            [XtorusD,YtorusD,ZtorusD] = object_rotate(XtorusD,YtorusD,ZtorusD,0.0,0.0,-psi);
             [XtorusD,YtorusD,ZtorusD] = object_rotate(XtorusD,YtorusD,ZtorusD,0.0,thetaRotation,0);
             [XtorusD,YtorusD,ZtorusD] = object_rotate(XtorusD,YtorusD,ZtorusD,0.0,0.0,phiRotation);
             %

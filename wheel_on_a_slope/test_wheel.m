@@ -2,9 +2,10 @@
 clear 
 close all
 gravity = 9.8;
-%alpha = pi / 6;
-alpha = 0;
+alpha = pi / 6;
+%alpha = 0;
 psiInitial = 0.0;
+
 
 start_time = 0.0;
 finish_time = 5;
@@ -25,12 +26,13 @@ tolerance = 1.0e-4;
 Xstart = 0.0;
 Ystart = 0.0;
 thetaApparent =    + 0.0;  
-%thetaApparent =  1 * pi/2; 
+%thetaApparent =    + pi/10; 
+%%thetaApparent =  1 * pi/2; 
 phiInitial = 0 * pi/2; 
 %thetaInitial = thetaApparent - alpha;
 thetaInitial = thetaApparent;
-speed = 5;
-%speed = 0.0;
+%speed = 5;
+speed = 0.0;
 
 
 wheel_radius_inner = 0.3;

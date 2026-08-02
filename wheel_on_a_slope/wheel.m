@@ -280,16 +280,9 @@ classdef wheel
             sinTwoTheta = sin(2 * theta);
           
             m = Mass;
-            rvec_1 = (IA*phiDot^2*sinTwoTheta)/2 - (IT*phiDot^2*sinTwoTheta)/2 + (aLarge^2*m*phiDot^2*sinTwoTheta)/2 - ...
-                IA*cosTheta*phiDot*psiDot + aLarge*cosAlpha*g*m*sinTheta - aLarge^2*cosTheta*m*phiDot*psiDot - ...
-                (aLarge*aSmall*m*phiDot*psiDot*sinTwoTheta)/2;
-            
-            rvec_2 = (thetaDot*(- 2*m*phiDot*sinTwoTheta*aLarge^2 + aSmall*m*psiDot*sinTwoTheta*aLarge + ...
-                2*IA*cosTheta*psiDot - 2*IA*phiDot*sinTwoTheta + 2*IT*phiDot*sinTwoTheta))/2;
-            
-            rvec_3 = cosTheta*thetaDot*(IA*phiDot + 2*aLarge^2*m*phiDot - aSmall^2*m*psiDot*sinTheta - ...
-                aLarge*aSmall*m*psiDot + 2*aLarge*aSmall*m*phiDot*sinTheta);
-            
+            rvec_1 = (IA*phiDot^2*sinTwoTheta)/2 - (IT*phiDot^2*sinTwoTheta)/2 + (aLarge^2*m*phiDot^2*sinTwoTheta)/2 - IA*cosTheta*phiDot*psiDot + aLarge*cosAlpha*g*m*sinTheta - aLarge^2*cosTheta*m*phiDot*psiDot - (aLarge*aSmall*m*phiDot*psiDot*sinTwoTheta)/2;
+            rvec_2 = (thetaDot*(- 2*m*phiDot*sinTwoTheta*aLarge^2 + aSmall*m*psiDot*sinTwoTheta*aLarge + 2*IA*cosTheta*psiDot - 2*IA*phiDot*sinTwoTheta + 2*IT*phiDot*sinTwoTheta))/2;
+            rvec_3 = cosTheta*thetaDot*(IA*phiDot + 2*aLarge^2*m*phiDot - aSmall^2*m*psiDot*sinTheta - aLarge*aSmall*m*psiDot + 2*aLarge*aSmall*m*phiDot*sinTheta);
             rightVec = [ rvec_1; rvec_2; rvec_3];
         end
         function Mat = get_Mat(obj,~,Y)

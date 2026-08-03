@@ -690,7 +690,7 @@ classdef wheel
             zlabel('Z')
             grid on
             axis vis3d          
-            camzoom(3)
+            camzoom(6)
         end
     end
 end

@@ -594,12 +594,6 @@ classdef wheel
                 [XtorusU,YtorusU,ZtorusU] = object_translate(XtorusU,YtorusU,ZtorusU,x_centerOfMass,y_centerOfMass,z_centerOfMass);
                 [XtorusD,YtorusD,ZtorusD] = object_translate(XtorusD,YtorusD,ZtorusD,x_centerOfMass,y_centerOfMass,z_centerOfMass);
             end
-            [x_s1,y_s1,z_s1] = object_rotate(x_s1,y_s1,z_s1,0.0,obj.alpha,0.0);  
-            [XtorusU,YtorusU,ZtorusU] = object_rotate(XtorusU,YtorusU,ZtorusU,0.0,obj.alpha,0.0);  
-            [XtorusD,YtorusD,ZtorusD] = object_rotate(XtorusD,YtorusD,ZtorusD,0.0,obj.alpha,0.0); 
-            [arrayX, arrayY, arrayZ] = object_rotate(arrayX, arrayY, arrayZ,0.0,obj.alpha,0.0); 
-            %
-            %[x, y] = meshgrid(-200:10:200); % Generate x and y data
             [x, y] = meshgrid(-50:1:50);
             z = zeros(size(x, 1)); % Generate z data
             
@@ -607,6 +601,11 @@ classdef wheel
             if strcmp(mode,'object')
                 [x,y,z] = object_translate(x,y,z,-x_centerOfMass,-y_centerOfMass,0);
             end
+            %
+            %[x_s1,y_s1,z_s1] = object_rotate(x_s1,y_s1,z_s1,obj.alpha,0.0,0.0);  
+            %[XtorusU,YtorusU,ZtorusU] = object_rotate(XtorusU,YtorusU,ZtorusU,obj.alpha,0.0,0.0); 
+            %[XtorusD,YtorusD,ZtorusD] = object_rotate(XtorusD,YtorusD,ZtorusD,obj.alpha,0.0,0.0); 
+            %[arrayX, arrayY, arrayZ] = object_rotate(arrayX, arrayY, arrayZ,obj.alpha,0.0,0.0); 
             [x,y,z] = object_rotate(x,y,z,obj.alpha,0,0.0);
             %
             
@@ -693,9 +692,9 @@ function [X_new,Y_new,Z_new] = object_rotate(X,Y,Z,alpha,theta,phi)
           0,    CA,  -SA;
           0,    SA,   CA];
       
-    RT = [CT,    0,   -ST;
+    RT = [CT,    0,    ST;
            0,    1,     0;
-          ST,    0,   CT];  
+         -ST,    0,   CT];  
       
     RP = [CP, - SP,     0;
           SP,   CP      0;

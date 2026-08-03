@@ -559,20 +559,103 @@ classdef wheel
             z_s1 = 1.1 * thicknes_wheel /2 * z_s1;
             [x_s1,y_s1,z_s1] = object_translate(x_s1,y_s1,z_s1,wheel_radius_outer-2*rad_sphere,0,0);         
             %
-            thetaRotation = pi/2 + theta;
-            phiRotation = - pi/2 + phi;
+            thetaRotation = theta;
+            phiRotation = phi;
+            
             [x_s1,y_s1,z_s1] = object_rotate(x_s1,y_s1,z_s1,0.0,0.0,psi);
-            [x_s1,y_s1,z_s1] = object_rotate(x_s1,y_s1,z_s1,0.0,thetaRotation,0);
-            [x_s1,y_s1,z_s1] = object_rotate(x_s1,y_s1,z_s1,0.0,0.0,phiRotation);
+            [x_s1,y_s1,z_s1] = object_rotate(x_s1,y_s1,z_s1,0.0,0,0);
+            [x_s1,y_s1,z_s1] = object_rotate(x_s1,y_s1,z_s1,0.0,0.0,- pi/2);
             
             [arrayX, arrayY, arrayZ] = object_rotate(arrayX, arrayY, arrayZ,0.0,0.0,psi);
+            [XtorusU,YtorusU,ZtorusU] = object_rotate(XtorusU,YtorusU,ZtorusU,0.0,0.0,psi);
+            [XtorusD,YtorusD,ZtorusD] = object_rotate(XtorusD,YtorusD,ZtorusD,0.0,0.0,psi);
+
+            figure
+            surf(XtorusD,YtorusD,ZtorusD)
+            hold on
+            for n=1:nTheta - 1
+               X(1:4) =  arrayX((n - 1) * 6 + 1, 1:4);
+                Y(1:4) =  arrayY((n - 1) * 6 + 1, 1:4);
+                Z(1:4) =  arrayZ((n - 1) * 6 + 1, 1:4);
+                fill3(X,Y,Z,'r','LineStyle','none')
+                X(1:4) =  arrayX((n - 1) * 6 + 1, 5:8);
+                Y(1:4) =  arrayY((n - 1) * 6 + 1, 5:8);
+                Z(1:4) =  arrayZ((n - 1) * 6 + 1, 5:8);
+                fill3(X,Y,Z,'r','LineStyle','none')
+                X(1:4) =  arrayX((n - 1) * 6 + 1, 9:12);
+                Y(1:4) =  arrayY((n - 1) * 6 + 1, 9:12);
+                Z(1:4) =  arrayZ((n - 1) * 6 + 1, 9:12);
+                fill3(X,Y,Z,'r','LineStyle','none')
+                X(1:4) =  arrayX((n - 1) * 6 + 1, 13:16);
+                Y(1:4) =  arrayY((n - 1) * 6 + 1, 13:16);
+                Z(1:4) =  arrayZ((n - 1) * 6 + 1, 13:16);
+                fill3(X,Y,Z,'r','LineStyle','none')
+            end
+            surf(x_s1,y_s1,z_s1,'facecolor','y','LineStyle','none');
+            pbaspect([1 1 1])
+            xlabel('X') 
+            ylabel('Y')
+            zlabel('Z')
+            grid on
+            axis vis3d          
+                        
+            
+                        
+
+            [x_s1,y_s1,z_s1] = object_rotate(x_s1,y_s1,z_s1,0.0,pi/2,0);
+            [arrayX, arrayY, arrayZ] = object_rotate(arrayX, arrayY, arrayZ,0.0,pi/2,0);    
+            [XtorusU,YtorusU,ZtorusU] = object_rotate(XtorusU,YtorusU,ZtorusU,0.0,pi/2,0);
+            [XtorusD,YtorusD,ZtorusD] = object_rotate(XtorusD,YtorusD,ZtorusD,0.0,pi/2,0);
+
+            
+                        figure
+            surf(XtorusD,YtorusD,ZtorusD)
+            hold on
+            for n=1:nTheta - 1
+               X(1:4) =  arrayX((n - 1) * 6 + 1, 1:4);
+                Y(1:4) =  arrayY((n - 1) * 6 + 1, 1:4);
+                Z(1:4) =  arrayZ((n - 1) * 6 + 1, 1:4);
+                fill3(X,Y,Z,'r','LineStyle','none')
+                X(1:4) =  arrayX((n - 1) * 6 + 1, 5:8);
+                Y(1:4) =  arrayY((n - 1) * 6 + 1, 5:8);
+                Z(1:4) =  arrayZ((n - 1) * 6 + 1, 5:8);
+                fill3(X,Y,Z,'r','LineStyle','none')
+                X(1:4) =  arrayX((n - 1) * 6 + 1, 9:12);
+                Y(1:4) =  arrayY((n - 1) * 6 + 1, 9:12);
+                Z(1:4) =  arrayZ((n - 1) * 6 + 1, 9:12);
+                fill3(X,Y,Z,'r','LineStyle','none')
+                X(1:4) =  arrayX((n - 1) * 6 + 1, 13:16);
+                Y(1:4) =  arrayY((n - 1) * 6 + 1, 13:16);
+                Z(1:4) =  arrayZ((n - 1) * 6 + 1, 13:16);
+                fill3(X,Y,Z,'r','LineStyle','none')
+            end
+            surf(x_s1,y_s1,z_s1,'facecolor','y','LineStyle','none');
+            pbaspect([1 1 1])
+            xlabel('X') 
+            ylabel('Y')
+            zlabel('Z')
+            grid on
+            axis vis3d          
+                        
+            
+            
+            
+            figure
+            surf(XtorusD,YtorusD,ZtorusD)
+            pbaspect([1 1 1])
+            xlabel('X') 
+            ylabel('Y')
+            zlabel('Z')
+            grid on
+            axis vis3d          
+            
+
+            [x_s1,y_s1,z_s1] = object_rotate(x_s1,y_s1,z_s1,0.0,thetaRotation,0);
+            [x_s1,y_s1,z_s1] = object_rotate(x_s1,y_s1,z_s1,0.0,0.0,phiRotation);
             [arrayX, arrayY, arrayZ] = object_rotate(arrayX, arrayY, arrayZ,0.0,thetaRotation,0);
             [arrayX, arrayY, arrayZ] = object_rotate(arrayX, arrayY, arrayZ,0.0,0.0,phiRotation);        
-            
-            [XtorusU,YtorusU,ZtorusU] = object_rotate(XtorusU,YtorusU,ZtorusU,0.0,0.0,psi);
             [XtorusU,YtorusU,ZtorusU] = object_rotate(XtorusU,YtorusU,ZtorusU,0.0,thetaRotation,0);
             [XtorusU,YtorusU,ZtorusU] = object_rotate(XtorusU,YtorusU,ZtorusU,0.0,0.0,phiRotation);
-            [XtorusD,YtorusD,ZtorusD] = object_rotate(XtorusD,YtorusD,ZtorusD,0.0,0.0,psi);
             [XtorusD,YtorusD,ZtorusD] = object_rotate(XtorusD,YtorusD,ZtorusD,0.0,thetaRotation,0);
             [XtorusD,YtorusD,ZtorusD] = object_rotate(XtorusD,YtorusD,ZtorusD,0.0,0.0,phiRotation);
             %
@@ -609,9 +692,10 @@ classdef wheel
             [x,y,z] = object_rotate(x,y,z,obj.alpha,0,0.0);
             %
             
+            figure(figureHandle);
+
             surf(x, y, z) % Plot the surface
 
-            figure(figureHandle);
 
             hold on
             hidden on

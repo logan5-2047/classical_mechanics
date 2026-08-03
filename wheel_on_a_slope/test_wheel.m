@@ -16,29 +16,14 @@ tolerance = 1.0e-4;
 %
 % In X
 %
-%thetaApparent =  pi * 8/16;  
-%phiInitial = pi * 4 /8; 
-%thetaInitial = thetaApparent + 0;
-%speed = 0;
-
-
+thetaApparent =  pi * 2/16;  
 
 Xstart = 0.0;
 Ystart = 0.0;
-thetaApparent =    + 0.0;  
-thetaApparent =    + pi/10; 
-%%thetaApparent =  1 * pi/2; 
-phiInitial = 0 * pi/2; 
-%thetaInitial = thetaApparent - alpha;
-thetaInitial = thetaApparent;
+  
+phiInitial = 0; 
+thetaInitial = thetaApparent - alpha;
 speed = 1.5;
-%speed = 0.0;
-
-
-wheel_radius_inner = 0.3;
-wheel_radius_outer = 0.5;
-%wheel_radius_aSmall = 0.15;
-%wheel_radius_aSmall = 0.1;
 
 wheel_radius_inner = 0.4;
 wheel_radius_outer = 0.5;
@@ -63,5 +48,5 @@ wheel = wheel.solvewheel();
 %wheel.plotwheel_timeZero('object')
 %wheel.plotwheel_time(0,'lab');
 
-wheel.animatewheel('object');
-%wheel.animatewheel('lab');
+%wheel.animatewheel('object');
+wheel.animatewheel('lab');

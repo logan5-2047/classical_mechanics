@@ -269,21 +269,26 @@ classdef wheel
             phiDot = Y(2);
             psiDot = Y(3);
             theta = Y(4);
+            phi = Y(5);
             aSmall = obj.wheelParams.radius_aSmall;
             aLarge = obj.wheelParams.radius_aLarge;
             Mass = obj.wheelParams.mass;
             IT = obj.wheelParams.interiaMoment.I;  
             IA = obj.wheelParams.interiaMoment.III;
             cosAlpha = cos(obj.alpha);
+            sinAlpha = sin(obj.alpha);
             sinTheta = sin(theta);
             cosTheta = cos(theta);
             sinTwoTheta = sin(2 * theta);
+            sinPhi = sin(phi);
+            cosPhi = cos(phi);
           
             m = Mass;
-            rvec_1 = (IA*phiDot^2*sinTwoTheta)/2 - (IT*phiDot^2*sinTwoTheta)/2 + (aLarge^2*m*phiDot^2*sinTwoTheta)/2 - IA*cosTheta*phiDot*psiDot + aLarge*cosAlpha*g*m*sinTheta - aLarge^2*cosTheta*m*phiDot*psiDot - (aLarge*aSmall*m*phiDot*psiDot*sinTwoTheta)/2;
-            rvec_2 = (thetaDot*(- 2*m*phiDot*sinTwoTheta*aLarge^2 + aSmall*m*psiDot*sinTwoTheta*aLarge + 2*IA*cosTheta*psiDot - 2*IA*phiDot*sinTwoTheta + 2*IT*phiDot*sinTwoTheta))/2;
-            rvec_3 = cosTheta*thetaDot*(IA*phiDot + 2*aLarge^2*m*phiDot - aSmall^2*m*psiDot*sinTheta - aLarge*aSmall*m*psiDot + 2*aLarge*aSmall*m*phiDot*sinTheta);
-            rightVec = [ rvec_1; rvec_2; rvec_3];
+            rvec_1 = (IA*phiDot^2*sinTwoTheta)/2 - (IT*phiDot^2*sinTwoTheta)/2 + (aLarge^2*m*phiDot^2*sinTwoTheta)/2 - IA*cosTheta*phiDot*psiDot + aLarge*cosAlpha*g*m*sinTheta - aLarge^2*cosTheta*m*phiDot*psiDot + aLarge*cosTheta*g*m*sinPhi*sinAlpha - (aLarge*aSmall*m*phiDot*psiDot*sinTwoTheta)/2;     
+            rvec_2 = IT*phiDot*sinTwoTheta*thetaDot - IA*phiDot*sinTwoTheta*thetaDot + IA*cosTheta*psiDot*thetaDot - aLarge^2*m*phiDot*sinTwoTheta*thetaDot + aLarge*cosPhi*g*m*sinAlpha*sinTheta + (aLarge*aSmall*m*psiDot*sinTwoTheta*thetaDot)/2;
+            rvec_3 = IA*cosTheta*phiDot*thetaDot - aLarge*cosPhi*g*m*sinAlpha + 2*aLarge^2*cosTheta*m*phiDot*thetaDot - (aSmall^2*m*psiDot*sinTwoTheta*thetaDot)/2 - aLarge*aSmall*cosTheta*m*psiDot*thetaDot - aSmall*cosPhi*g*m*sinAlpha*sinTheta + aLarge*aSmall*m*phiDot*sinTwoTheta*thetaDot;
+            
+            rightVec = [ rvec_1; rvec_2; rvec_3];    
         end
         function Mat = get_Mat(obj,~,Y)
             % Gets the left hand matrix that defines the ODE

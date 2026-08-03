@@ -531,7 +531,7 @@ classdef wheel
             z_centerOfMass = z;
             tolerance = 1.0e-8;
             
-            rad_sphere = 0.06;
+            rad_sphere = 0.08;
 
             wheel_radius_inner = aLarge - aSmall;
             wheel_radius_outer = aLarge + aSmall;
@@ -557,7 +557,7 @@ classdef wheel
             x_s1 = rad_sphere * x_s1;
             y_s1 = rad_sphere * y_s1;
             z_s1 = 1.1 * thicknes_wheel /2 * z_s1;
-            [x_s1,y_s1,z_s1] = object_translate(x_s1,y_s1,z_s1,wheel_radius_outer-rad_sphere/2,0,0);         
+            [x_s1,y_s1,z_s1] = object_translate(x_s1,y_s1,z_s1,wheel_radius_outer-2*rad_sphere,0,0);         
             %
             thetaRotation = pi/2 + theta;
             phiRotation = - pi/2 + phi;
@@ -692,9 +692,9 @@ function [X_new,Y_new,Z_new] = object_rotate(X,Y,Z,alpha,theta,phi)
           0,    CA,  -SA;
           0,    SA,   CA];
       
-    RT = [CT,    0,    ST;
+    RT = [CT,    0,    -ST;
            0,    1,     0;
-         -ST,    0,   CT];  
+         ST,    0,   CT];  
       
     RP = [CP, - SP,     0;
           SP,   CP      0;

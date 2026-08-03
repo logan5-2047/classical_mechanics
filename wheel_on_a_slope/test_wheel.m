@@ -23,7 +23,7 @@ Ystart = 0.0;
   
 phiInitial = 0; 
 thetaInitial = thetaApparent - alpha;
-speed = 1.5;
+speed = 1.0;
 
 wheel_radius_inner = 0.4;
 wheel_radius_outer = 0.5;

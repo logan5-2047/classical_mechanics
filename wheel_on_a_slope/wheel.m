@@ -284,9 +284,19 @@ classdef wheel
             cosPhi = cos(phi);
           
             m = Mass;
-            rvec_1 = (IA*phiDot^2*sinTwoTheta)/2 - (IT*phiDot^2*sinTwoTheta)/2 + (aLarge^2*m*phiDot^2*sinTwoTheta)/2 - IA*cosTheta*phiDot*psiDot + aLarge*cosAlpha*g*m*sinTheta - aLarge^2*cosTheta*m*phiDot*psiDot + aLarge*cosTheta*g*m*sinPhi*sinAlpha - (aLarge*aSmall*m*phiDot*psiDot*sinTwoTheta)/2;     
-            rvec_2 = IT*phiDot*sinTwoTheta*thetaDot - IA*phiDot*sinTwoTheta*thetaDot + IA*cosTheta*psiDot*thetaDot - aLarge^2*m*phiDot*sinTwoTheta*thetaDot + aLarge*cosPhi*g*m*sinAlpha*sinTheta + (aLarge*aSmall*m*psiDot*sinTwoTheta*thetaDot)/2;
-            rvec_3 = IA*cosTheta*phiDot*thetaDot - aLarge*cosPhi*g*m*sinAlpha + 2*aLarge^2*cosTheta*m*phiDot*thetaDot - (aSmall^2*m*psiDot*sinTwoTheta*thetaDot)/2 - aLarge*aSmall*cosTheta*m*psiDot*thetaDot - aSmall*cosPhi*g*m*sinAlpha*sinTheta + aLarge*aSmall*m*phiDot*sinTwoTheta*thetaDot;
+            rvec_1 = (IA*phiDot^2*sinTwoTheta)/2 - (IT*phiDot^2*sinTwoTheta)/2 + (aLarge^2*m*phiDot^2*sinTwoTheta)/2 - ...
+                IA*cosTheta*phiDot*psiDot + aLarge*cosAlpha*g*m*sinTheta - aLarge*aSmall*m*phiDot*psiDot + ...
+                aSmall*g*m*sinPhi*sinAlpha - aLarge^2*cosTheta*m*phiDot*psiDot + aLarge*aSmall*m*phiDot^2*sinTheta + ...
+                aLarge*aSmall*m*sinTheta*thetaDot^2 - aSmall^2*m*phiDot*psiDot*sinTheta + aLarge*cosTheta*g*m*sinPhi*sinAlpha - ...
+                (aLarge*aSmall*m*phiDot*psiDot*sinTwoTheta)/2;
+                         
+            rvec_2 = IT*phiDot*sinTwoTheta*thetaDot - IA*phiDot*sinTwoTheta*thetaDot + IA*cosTheta*psiDot*thetaDot - ...
+            aLarge^2*m*phiDot*sinTwoTheta*thetaDot + aLarge*cosPhi*g*m*sinAlpha*sinTheta - aLarge*aSmall*m*phiDot*sinTheta*thetaDot + ...
+                (aLarge*aSmall*m*psiDot*sinTwoTheta*thetaDot)/2;
+        
+            rvec_3 = IA*cosTheta*phiDot*thetaDot - aLarge*cosPhi*g*m*sinAlpha + aLarge*aSmall*m*phiDot*thetaDot + ...
+                2*aLarge^2*cosTheta*m*phiDot*thetaDot + aSmall^2*m*phiDot*sinTheta*thetaDot - (aSmall^2*m*psiDot*sinTwoTheta*thetaDot)/2 - ...
+                aLarge*aSmall*cosTheta*m*psiDot*thetaDot - aSmall*cosPhi*g*m*sinAlpha*sinTheta + aLarge*aSmall*m*phiDot*sinTwoTheta*thetaDot;
             
             rightVec = [ rvec_1; rvec_2; rvec_3];    
         end
@@ -297,19 +307,20 @@ classdef wheel
             % ensure ease of readability.
             %
             theta = Y(4);
+            phi = Y(5);
             Mass = obj.wheelParams.mass;
             aSmall = obj.wheelParams.radius_aSmall;
             aLarge = obj.wheelParams.radius_aLarge;
             IT = obj.wheelParams.interiaMoment.I;  
-            IA = obj.wheelParams.interiaMoment.III;    
-            %
+            IA = obj.wheelParams.interiaMoment.III; 
+            cosTheta = cos(theta);
             sinTheta = sin(theta);
             m = Mass;
             %
             %
             % Now populate the desired matrix.
             %
-            mat11 = m*aLarge^2 + IT;
+            mat11 =  m*aLarge^2 + 2*cosTheta*m*aLarge*aSmall + m*aSmall^2 + IT;           
             mat21 = 0;
             mat31 = 0;
             mat12 = 0;
@@ -318,7 +329,6 @@ classdef wheel
             mat13 = 0;
             mat23 = -sinTheta*(m*aLarge^2 + aSmall*m*sinTheta*aLarge + IA);
             mat33 = IA + m*(aLarge + aSmall*sinTheta)^2;
-            %
             Mat = [mat11,   mat12,   mat13;   
                    mat21,   mat22,   mat23;  
                    mat31,   mat32,   mat33];  

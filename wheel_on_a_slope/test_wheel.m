@@ -3,7 +3,7 @@ clear
 close all
 gravity = 9.8;
 
-alpha = pi / 6;
+alpha = pi / 8;
 phiInitial = 1/2 * pi/2; 
 psiInitial = 0
 thetaApparent =  pi * 1/16;  %

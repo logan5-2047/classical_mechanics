@@ -466,7 +466,7 @@ classdef wheel
             z_centre = Z;
             obj.add_plot(x_centre,y_centre,z_centre,theta,phi,psi,mode,figureHandle);   
         end
-        function animatewheel(obj,mode)
+        function animatewheel(obj,mode,camzm)
             % Animates the solution of the wheel's motion
             %
             rad_wheel_aSmall = obj.wheelParams.radius_aSmall;
@@ -515,7 +515,7 @@ classdef wheel
                 x_centre = X;
                 y_centre = Y;
                 z_centre = Z;
-                obj.add_plot(x_centre,y_centre,z_centre,theta,phi,psi,rad_wheel_alarge,rad_wheel_aSmall,mode,figureHandle);              
+                obj.add_plot(x_centre,y_centre,z_centre,theta,phi,psi,rad_wheel_alarge,rad_wheel_aSmall,mode,figureHandle,camzm);              
                 drawnow
                 %pause(0.2)
                 flipBook(i) = getframe(figureHandle);
@@ -532,7 +532,7 @@ classdef wheel
             writeVideo(myWriter, flipBook);
             close(myWriter);
         end
-        function add_plot(obj,x,y,z,theta,phi,psi,aLarge,aSmall,mode,figureHandle)
+        function add_plot(obj,x,y,z,theta,phi,psi,aLarge,aSmall,mode,figureHandle,camzm)
             % Adds a plot to the current figure handle bases on requested rotation
             %
             %
@@ -634,11 +634,11 @@ classdef wheel
                 [x,y,z] = object_translate(x,y,z,-x_centerOfMass,-y_centerOfMass,0);
             end
             %
-            %[x_s1,y_s1,z_s1] = object_rotate(x_s1,y_s1,z_s1,obj.alpha,0.0,0.0);  
-            %[XtorusU,YtorusU,ZtorusU] = object_rotate(XtorusU,YtorusU,ZtorusU,obj.alpha,0.0,0.0); 
-            %[XtorusD,YtorusD,ZtorusD] = object_rotate(XtorusD,YtorusD,ZtorusD,obj.alpha,0.0,0.0); 
-            %[arrayX, arrayY, arrayZ] = object_rotate(arrayX, arrayY, arrayZ,obj.alpha,0.0,0.0); 
-            [x,y,z] = object_rotate(x,y,z,obj.alpha,0,0.0);
+            [x_s1,y_s1,z_s1] = object_rotate(x_s1,y_s1,z_s1,0,obj.alpha,0.0);   
+            [XtorusU,YtorusU,ZtorusU] = object_rotate(XtorusU,YtorusU,ZtorusU,0,obj.alpha,0.0); 
+            [XtorusD,YtorusD,ZtorusD] = object_rotate(XtorusD,YtorusD,ZtorusD,0,obj.alpha,0.0); 
+            [arrayX, arrayY, arrayZ] = object_rotate(arrayX, arrayY, arrayZ,0,obj.alpha,0.0); 
+            [x,y,z] = object_rotate(x,y,z,0,obj.alpha,0.0);
             %
             
             figure(figureHandle);
@@ -693,14 +693,14 @@ classdef wheel
             %view([-90 40 50])
             %view([270 -200 50])
             %view([-10 40 50])
-            view([30 20 ])
+            view([-80 20 ])
             pbaspect([1 1 1])
             xlabel('X') 
             ylabel('Y')
             zlabel('Z')
             grid on
             axis vis3d          
-            camzoom(6)
+            camzoom(camzm)
         end
     end
 end

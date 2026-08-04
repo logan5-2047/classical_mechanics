@@ -130,7 +130,7 @@ for iTimecount = 1:10:nTimecount
         %plot3(planet_X,planet_Y,planet_Z,'o','Color', chosen_color);
         
     end
-    legend('sun', 'mercury', 'venus', 'earth', 'mars', 'jupiter', 'saturn', 'neptune', 'pluto');
+    legend('sun', 'mercury', 'venus', 'earth', 'mars', 'jupiter', 'saturn', 'urnanus', 'neptune', 'pluto');
    
     drawnow;
     

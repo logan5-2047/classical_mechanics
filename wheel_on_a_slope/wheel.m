@@ -237,8 +237,8 @@ classdef wheel
             fullVec = [vec; vec_lower];
             %
             % Deal with collision with the ground
-            %{
-            if theta <= pi/2 +obj.numericalParameters.tolerance && theta_dot <0.0 || theta >= pi/2 - obj.numericalParameters.tolerance && theta_dot > 0.0
+            %
+            if theta <= -pi/2 +obj.numericalParameters.tolerance && theta_dot <0.0 || theta >= pi/2 - obj.numericalParameters.tolerance && theta_dot > 0.0
                 theta_dot_dot = 0.0;
                 phi_dot_dot = 0.0;
                 psi_dot_dot = 0.0;
@@ -255,7 +255,7 @@ classdef wheel
                 % fullVec(6)  we leave this one alone
                 %
             end
-            %}
+            %
             dYdt = fullVec;
         end
         function rightVec = get_rightVec(obj,Y)

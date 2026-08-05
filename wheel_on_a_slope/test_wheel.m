@@ -3,12 +3,14 @@ clear
 close all
 gravity = 9.8;
 
-alpha = pi / 8;
-phiInitial = 1/2 * pi/2; 
+alpha = pi / 15;
+phiInitial = 15/20 * pi/2; 
+%phiInitial=pi/2
 psiInitial = 0
 thetaApparent =  pi * 1/16;  %
-%thetaInitial = thetaApparent + alpha;
-thetaInitial = thetaApparent;
+thetaApparent=0
+thetaInitial = thetaApparent - alpha;
+%thetaInitial = thetaApparent;
 Xstart = 4.0;
 Ystart = -4.0;
 

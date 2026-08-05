@@ -4,20 +4,20 @@ close all
 gravity = 9.8;
 
 alpha = pi / 15;
-phiInitial = 15/20 * pi/2; 
+phiInitial = 16.07/20 * pi/2; 
 %phiInitial=pi/2
 psiInitial = 0
 thetaApparent =  pi * 1/16;  %
 thetaApparent=0
 thetaInitial = thetaApparent - alpha;
 %thetaInitial = thetaApparent;
-Xstart = 4.0;
-Ystart = -4.0;
+Xstart =3.5;
+Ystart = 0.0;
 
 speed = 0.0;
 
 start_time = 0.0;
-finish_time = 5;
+finish_time = 10;
 
 tolerance = 1.0e-4;
 

@@ -4,26 +4,26 @@ close all
 gravity = 9.8;
 
 alpha = pi / 15;
-phiInitial = 16.07/20 * pi/2; 
+phiInitial = 1* pi/2; 
 %phiInitial=pi/2
 psiInitial = 0
-thetaApparent =  pi * 1/16;  %
+thetaApparent =  0;  %
 thetaApparent=0
 thetaInitial = thetaApparent - alpha;
 %thetaInitial = thetaApparent;
-Xstart =3.5;
+Xstart =0.0;
 Ystart = 0.0;
 
 speed = 0.0;
 
 start_time = 0.0;
-finish_time = 10;
+finish_time = 5;
 
 tolerance = 1.0e-4;
 
 
-wheel_radius_inner = 0.4;
-wheel_radius_outer = 0.5;
+wheel_radius_inner = 0.2;
+wheel_radius_outer = 0.6;
 wheel_radius_aSmall = wheel_radius_outer - wheel_radius_inner;
 wheel_radius_aLarge = 1/2 * (wheel_radius_outer + wheel_radius_inner);
 
@@ -41,8 +41,8 @@ numericalParameters.tolerance = tolerance;
 wheel = wheel(wheelParams,alpha,Xstart,Ystart,thetaInitial,phiInitial,psiInitial,speed,physicalConstants,numericalParameters);
 wheel = wheel.solvewheel();
 
-wheel.animatewheel('object',6)
-movefile 'wheel.mp4' 'wheel_zoomedin.mp4'
+%wheel.animatewheel('object',3)
+%movefile 'wheel.mp4' 'wheel_zoomedin.mp4'
 
-wheel.animatewheel('lab',0.75);
+wheel.animatewheel('lab',3);
 movefile 'wheel.mp4' 'wheel_zoomedout.mp4'

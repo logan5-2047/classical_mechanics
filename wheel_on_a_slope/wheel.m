@@ -140,8 +140,9 @@ classdef wheel
             %
             % Now solve the ode for x and y.
             %
-            [xTable.time,xTable.distance] = ode45(@(t,x) obj.get_xDot(timeY,Y,t), tspan, x0);
-            [yTable.time,yTable.distance] = ode45(@(t,x) obj.get_yDot(timeY,Y,t) , tspan, y0);
+            options = odeset('RelTol',1e-6,'AbsTol',1e-9);
+            [xTable.time,xTable.distance] = ode45(@(t,x) obj.get_xDot(timeY,Y,t), tspan, x0,options);
+            [yTable.time,yTable.distance] = ode45(@(t,x) obj.get_yDot(timeY,Y,t) , tspan, y0,options);
         end
         function xdot = get_xDot(obj,timeY,Y,t)
             % Get the speed of the y component of the ground contact point of the wheel
@@ -172,7 +173,7 @@ classdef wheel
             cosTheta = cos(theta);
             %
             if -pi/2 + obj.numericalParameters.tolerance < theta && theta < pi/2 - obj.numericalParameters.tolerance
-                xdot = cosPhi * ( aLarge + sinTheta * aSmall )* psiDot - sinTheta * cosPhi * aLarge * phiDot - sinPhi * cosTheta * aLarge * thetaDot;
+                xdot = cosPhi * ( aLarge + cosTheta * aSmall )* psiDot -sinTheta * aSmall * thetaDot - sinTheta * cosPhi * aLarge * phiDot - sinPhi * cosTheta * aLarge * thetaDot;
             else
                 %
                 % The wheel is fallen over, and shouldn't move
@@ -209,7 +210,7 @@ classdef wheel
             cosTheta = cos(theta);
             %
             if -pi/2 + obj.numericalParameters.tolerance < theta && theta < pi/2 - obj.numericalParameters.tolerance
-                ydot = sinPhi * (aLarge + sinTheta * aSmall) * psiDot - sinPhi * sinTheta * aLarge * phiDot + cosPhi * cosTheta * aLarge * thetaDot;
+                ydot = cosPhi * aSmall * thetaDot + sinPhi * (aLarge + cosTheta * aSmall) * psiDot - sinPhi * sinTheta * aLarge * phiDot + cosPhi * cosTheta * aLarge * thetaDot;
 
             else
                 %
@@ -284,19 +285,21 @@ classdef wheel
             cosPhi = cos(phi);
           
             m = Mass;
-            rvec_1 = (IA*phiDot^2*sinTwoTheta)/2 - (IT*phiDot^2*sinTwoTheta)/2 + (aLarge^2*m*phiDot^2*sinTwoTheta)/2 - ...
-                IA*cosTheta*phiDot*psiDot + aLarge*cosAlpha*g*m*sinTheta - aLarge*aSmall*m*phiDot*psiDot + ...
-                aSmall*g*m*sinPhi*sinAlpha - aLarge^2*cosTheta*m*phiDot*psiDot + aLarge*aSmall*m*phiDot^2*sinTheta + ...
-                aLarge*aSmall*m*sinTheta*thetaDot^2 - aSmall^2*m*phiDot*psiDot*sinTheta + aLarge*cosTheta*g*m*sinPhi*sinAlpha - ...
-                (aLarge*aSmall*m*phiDot*psiDot*sinTwoTheta)/2;
-                         
-            rvec_2 = IT*phiDot*sinTwoTheta*thetaDot - IA*phiDot*sinTwoTheta*thetaDot + IA*cosTheta*psiDot*thetaDot - ...
-            aLarge^2*m*phiDot*sinTwoTheta*thetaDot + aLarge*cosPhi*g*m*sinAlpha*sinTheta - aLarge*aSmall*m*phiDot*sinTheta*thetaDot + ...
-                (aLarge*aSmall*m*psiDot*sinTwoTheta*thetaDot)/2;
-        
-            rvec_3 = IA*cosTheta*phiDot*thetaDot - aLarge*cosPhi*g*m*sinAlpha + aLarge*aSmall*m*phiDot*thetaDot + ...
-                2*aLarge^2*cosTheta*m*phiDot*thetaDot + aSmall^2*m*phiDot*sinTheta*thetaDot - (aSmall^2*m*psiDot*sinTwoTheta*thetaDot)/2 - ...
-                aLarge*aSmall*cosTheta*m*psiDot*thetaDot - aSmall*cosPhi*g*m*sinAlpha*sinTheta + aLarge*aSmall*m*phiDot*sinTwoTheta*thetaDot;
+            rvec_1 = (IA*phiDot^2*sinTwoTheta)/2 - (IT*phiDot^2*sinTwoTheta)/2 + ...
+                (aLarge^2*m*phiDot^2*sinTwoTheta)/2 - IA*cosTheta*phiDot*psiDot + ...
+                aLarge*cosAlpha*g*m*sinTheta - aLarge*aSmall*m*phiDot*psiDot + ...
+                aSmall*g*m*sinPhi*sinAlpha - aLarge^2*cosTheta*m*phiDot*psiDot - ...
+                aSmall^2*cosTheta*m*phiDot*psiDot + aLarge*aSmall*m*phiDot^2*sinTheta + ...
+                aLarge*aSmall*m*sinTheta*thetaDot^2 - aLarge*aSmall*cosTheta^2*m*phiDot*psiDot + ...
+                aLarge*cosTheta*g*m*sinPhi*sinAlpha;
+            rvec_2 = IT*phiDot*sinTwoTheta*thetaDot - IA*phiDot*sinTwoTheta*thetaDot + ...
+                IA*cosTheta*psiDot*thetaDot - aLarge*aSmall*m*psiDot*thetaDot - ...
+                aLarge^2*m*phiDot*sinTwoTheta*thetaDot + aLarge*aSmall*cosTheta^2*m*psiDot*thetaDot + ....
+                aLarge*cosPhi*g*m*sinAlpha*sinTheta - aLarge*aSmall*m*phiDot*sinTheta*thetaDot;
+            rvec_3 = IT*phiDot*sinTwoTheta*thetaDot - IA*phiDot*sinTwoTheta*thetaDot + ...
+                IA*cosTheta*psiDot*thetaDot - aLarge*aSmall*m*psiDot*thetaDot - ... 
+                aLarge^2*m*phiDot*sinTwoTheta*thetaDot + aLarge*aSmall*cosTheta^2*m*psiDot*thetaDot + ...
+                aLarge*cosPhi*g*m*sinAlpha*sinTheta - aLarge*aSmall*m*phiDot*sinTheta*thetaDot;
             
             rightVec = [ rvec_1; rvec_2; rvec_3];    
         end
@@ -320,15 +323,15 @@ classdef wheel
             %
             % Now populate the desired matrix.
             %
-            mat11 =  m*aLarge^2 + 2*cosTheta*m*aLarge*aSmall + m*aSmall^2 + IT;           
+            mat11 = m*aLarge^2 + 2*cosTheta*m*aLarge*aSmall + m*aSmall^2 + IT;       
             mat21 = 0;
             mat31 = 0;
             mat12 = 0;
             mat22 = IT + IA*sinTheta^2 - IT*sinTheta^2 + aLarge^2*m*sinTheta^2;
-            mat32 = -sinTheta*(m*aLarge^2 + aSmall*m*sinTheta*aLarge + IA);
+            mat32 = -sinTheta*(m*aLarge^2 + aSmall*cosTheta*m*aLarge + IA);
             mat13 = 0;
-            mat23 = -sinTheta*(m*aLarge^2 + aSmall*m*sinTheta*aLarge + IA);
-            mat33 = IA + m*(aLarge + aSmall*sinTheta)^2;
+            mat23 = -sinTheta*(m*aLarge^2 + aSmall*cosTheta*m*aLarge + IA);
+            mat33 = IA + m*(aLarge + aSmall*cosTheta)^2;
             Mat = [mat11,   mat12,   mat13;   
                    mat21,   mat22,   mat23;  
                    mat31,   mat32,   mat33];  
@@ -693,7 +696,7 @@ classdef wheel
             %view([-90 40 50])
             %view([270 -200 50])
             %view([-10 40 50])
-            view([-80 20 ])
+            view([0 0 ])
             pbaspect([1 1 1])
             xlabel('X') 
             ylabel('Y')
